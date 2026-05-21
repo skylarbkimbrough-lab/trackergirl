@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Life of a Tracker Girl</title>
+<style>
+/* ── RESET & BASE ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:        #060d0c;
+  --bg2:       #0a1614;
+  --surface:   #0f1f1c;
+  --surface2:  #142a26;
+  --border:    #1e3d38;
+  --border2:   #2a5248;
+  --orange:    #f97316;
+  --orange2:   #fb923c;
+  --orange3:   #fed7aa;
+  --teal:      #14b8a6;
+  --teal2:     --teal2;
+  --teal2:     #2dd4bf;
+  --teal3:     #99f6e4;
+  --text:      #f0fdfb;
+  --text2:     #a7f3d0;
+  --muted:     #6b9e94;
+  --red:       #ef4444;
+  --blue:      #38bdf8;
+  --serif:     Georgia, 'Times New Roman', serif;
+  --sans:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html, body {
+  background: #060d0c !important;
+  background-color: #060d0c !important;
+  color: #f0fdfb !important;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.glitter-wrap {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.g {
+  position: absolute; border-radius: 50%;
+  animation: glitter 2s infinite ease-in-out;
+}
+@keyframes glitter {
+  0%, 100% { opacity: 0.2; transform: scale(0.7) rotate(0deg); }
+  50%       { opacity: 1;   transform: scale(1.3) rotate(180deg); }
+}
+
+header {
+  position: relative; z-index: 10;
+  text-align: center;
+  padding: 28px 20px 16px;
+  border-bottom: 1px solid #1e3d38;
+  background: linear-gradient(180deg, rgba(20,184,166,0.08) 0%, transparent 100%);
+}
+header h1 {
+  font-family: var(--serif);
+  font-size: clamp(22px, 5vw, 36px);
+  font-weight: 900;
+  background: linear-gradient(135deg, #f97316, #fb923c, #14b8a6, #2dd4bf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+header p {
+  font-size: 13px;
+  color: var(--teal2);
+  opacity: 0.8;
+  font-style: italic;
+}
+
+nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(6,13,12,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #1e3d38;
+  display: flex; flex-wrap: wrap;
+  gap: 2px; padding: 8px 12px;
+  justify-content: center;
+}
+.tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 7px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 5px;
+}
+.tab-btn:hover { color: var(--teal2); border-color: #1e3d38; }
+.tab-btn.active {
+  background: linear-gradient(135deg, #f97316, #14b8a6);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 0 16px rgba(249,115,22,0.35);
+}
+
+main {
+  position: relative; z-index: 10;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.card {
+  background: #0f1f1c;
+  border: 1px solid #1e3d38;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-title.teal { color: var(--teal); }
+
+.quote-card {
+  background: linear-gradient(135deg, rgba(249,115,22,0.08), rgba(20,184,166,0.08));
+  border: 1px solid rgba(249,115,22,0.25);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  font-style: italic;
+  font-size: 13px;
+  color: #fbbf24;
+  text-align: center;
+  font-family: var(--serif);
+}
+
+.form-group { margin-bottom: 14px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange3);
+  margin-bottom: 5px;
+}
+input, select, textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid #1e3d38;
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  padding: 9px 12px;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 2px rgba(249,115,22,0.15);
+}
+textarea { resize: vertical; min-height: 70px; }
+
+.bs-input {
+  font-size: 52px !important;
+  font-weight: 800 !important;
+  text-align: center;
+  line-height: 1;
+  padding: 12px !important;
+  letter-spacing: -0.02em;
+}
+
+/* Tip styling inside form box */
+.live-tip-container {
+  margin-top: 8px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(30,61,56,0.5);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.btn {
+  font-family: var(--sans);
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 20px;
+  border: none; border-radius: 8px;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-orange { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; }
+.btn-orange:hover { box-shadow: 0 0 20px rgba(249,115,22,0.45); transform: translateY(-1px); }
+.btn-teal { background: linear-gradient(135deg, #14b8a6, #0d9488); color: #fff; }
+.btn-teal:hover { box-shadow: 0 0 20px rgba(20,184,166,0.45); transform: translateY(-1px); }
+.btn-full { width: 100%; margin-top: 4px; }
+
+.log-section { margin-top: 20px; }
+.log-section-title {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1e3d38;
+}
+.log-empty {
+  text-align: center; font-style: italic; color: var(--muted); font-size: 13px;
+  padding: 20px; border: 1px dashed #1e3d38; border-radius: 8px;
+}
+.log-entry {
+  background: #142a26; border: 1px solid #1e3d38; border-left: 3px solid var(--orange);
+  border-radius: 8px; padding: 12px 14px; margin-bottom: 8px;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+}
+.log-entry.teal-accent { border-left-color: var(--teal); }
+.log-entry.blue-accent { border-left-color: var(--blue); }
+.log-entry.red-accent { border-left-color: var(--red); }
+.log-entry-main { flex: 1; min-width: 0; }
+.log-entry-name { font-weight: 600; font-size: 14px; color: var(--text); }
+.log-entry-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.del-btn { background: transparent; border: none; color: var(--muted); cursor: pointer; padding: 4px; display: flex; align-items: center; }
+.del-btn:hover { color: var(--red); }
+
+.subtab-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #1e3d38; }
+.subtab-btn { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 14px; border-radius: 6px; border: 1px solid #1e3d38;
+  background: transparent; color: var(--muted); cursor: pointer; }
+.subtab-btn.active { background: linear-gradient(135deg, #f97316, #14b8a6); color: #fff; border-color: transparent; }
+.subtab-panel { display: none; }
+.subtab-panel.active { display: block; }
+
+.photo-wrap { position: relative; cursor: pointer; border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.photo-wrap img { width: 100%; height: 140px; object-fit: cover; display: block; }
+.photo-wrap:hover img { filter: brightness(0.6); }
+.photo-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;
+  font-size: 11px; font-weight: 700; color: var(--orange2); gap: 6px; text-transform: uppercase; }
+.photo-wrap:hover .photo-overlay { opacity: 1; }
+.photo-wrap input[type="file"] { display: none; }
+
+.profile-photo-wrap { position: relative; cursor: pointer; width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 3px solid var(--orange);
+  margin: 0 auto 16px; }
+.profile-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.profile-photo-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;
+  font-size: 9px; font-weight: 700; color: var(--orange2); text-align: center; text-transform: uppercase; }
+.profile-photo-wrap:hover .profile-photo-overlay { opacity: 1; }
+.profile-photo-wrap input[type="file"] { display: none; }
+
+.daily-summary-box { background: linear-gradient(135deg, rgba(20,184,166,0.06), rgba(249,115,22,0.06)); border: 1px solid #1e3d38; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.daily-summary-title { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal2); margin-bottom: 12px; }
+.daily-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+.daily-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--teal); cursor: pointer; }
+.daily-item.checked-text span { color: var(--muted); text-decoration: line-through; }
+
+/* ── VISUAL BOOKSHELF STRUCTURING ─────────────────────────────────────────── */
+.shelf-container {
+  background: #0a1614; border: 1px solid #1e3d38; border-radius: 10px;
+  padding: 16px; margin-bottom: 20px;
+}
+.shelf-row-title {
+  font-family: var(--serif); font-size: 14px; font-weight: 700;
+  color: var(--orange2); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.shelf-plank {
+  display: flex; flex-wrap: wrap; gap: 16px;
+  padding: 12px 12px 24px; background: rgba(20,184,166,0.03);
+  border-bottom: 8px solid #1e3d38; border-radius: 4px 4px 0 0;
+  margin-bottom: 16px; min-height: 140px; align-items: flex-end;
+}
+.shelf-item-card {
+  width: 75px; position: relative; display: flex; flex-direction: column;
+  align-items: center; cursor: pointer;
+}
+.shelf-item-cover-wrapper {
+  width: 70px; height: 100px; background: #142a26; border: 1px solid #2a5248;
+  border-radius: 4px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  position: relative; display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.shelf-item-card:hover .shelf-item-cover-wrapper {
+  transform: translateY(-4px) scale(1.05); box-shadow: 0 8px 16px rgba(249,115,22,0.2);
+}
+.shelf-item-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.shelf-fallback-icon { font-size: 24px; }
+.shelf-item-title {
+  font-size: 10px; text-align: center; color: var(--text);
+  margin-top: 6px; font-weight: 600; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; width: 100%;
+}
+.shelf-signed-badge {
+  position: absolute; top: -5px; right: -5px; background: #fbbf24;
+  color: #060d0c; border-radius: 50%; width: 18px; height: 18px;
+  font-size: 9px; font-weight: 900; display: flex; align-items: center;
+  justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 5;
+}
+.shelf-item-delete {
+  position: absolute; inset: 0; background: rgba(239,68,68,0.85);
+  opacity: 0; display: flex;
+  align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 11px; transition: opacity 0.2s;
+  border-radius: 4px;
+}
+.shelf-item-cover-wrapper:hover .shelf-item-delete { opacity: 1; }
+
+/* Newsroom & Health generic checklist lists styling */
+.checklist-box { background: rgba(255,255,255,0.02); border: 1px solid #1e3d38; border-radius: 10px; padding: 16px; }
+.task-row { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(30,61,56,0.5); }
+.task-row:last-child { border-bottom: none; }
+.task-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--orange); cursor: pointer; }
+.task-row.health-accent input[type="checkbox"] { accent-color: var(--teal); }
+.task-text { font-size: 15px; font-weight: 500; }
+.task-row input[type="checkbox"]:checked + .task-text { color: var(--muted); text-decoration: line-through; }
+
+/* Running To-Do Dynamic Item Styles */
+.todo-item-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid #1e3d38;
+  border-radius: 8px; margin-bottom: 8px; transition: border-color 0.2s;
+}
+.todo-item-row:hover { border-color: var(--orange2); }
+.todo-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.todo-checkbox { width: 18px; height: 18px; accent-color: var(--orange); cursor: pointer; flex-shrink: 0; }
+.todo-text-content { font-size: 14px; color: var(--text); word-break: break-word; }
+.todo-checkbox:checked + .todo-text-content { color: var(--muted); text-decoration: line-through; }
+
+.edit-fab { position: fixed; bottom: 24px; right: 20px; z-index: 200; background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; border: none; border-radius: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 11px 18px; cursor: pointer; box-shadow: 0 4px 20px rgba(249,115,22,0.4); display: flex;
+  align-items: center; gap: 6px; }
+.edit-fab.on { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+[contenteditable="true"] { outline: 1px dashed rgba(249,115,22,0.5); background: rgba(249,115,22,0.04); border-radius: 3px; }
+
+.toast { position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); background: #0f1f1c; border: 1px solid var(--teal); color: var(--text);
+  padding: 10px 20px; border-radius: 8px; font-size: 13px; z-index: 9999; display: none; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+.toast.show { display: block; animation: fadeInUp 0.2s; }
+.undo-toast { position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); background: #142a26; border: 1px solid var(--orange); padding: 10px 20px;
+  border-radius: 8px; font-size: 13px; z-index: 9998; display: none; align-items: center; gap: 12px; }
+@keyframes fadeInUp { from { opacity:0; transform:translate(-50%, 10px); } to { opacity:1; transform:translate(-50%, 0); } }
+
+/* Cover Selector Widget */
+.cover-picker-box {
+  background: rgba(255,255,255,0.03); border: 1px dashed #1e3d38;
+  border-radius: 8px; padding: 10px; text-align: center; cursor: pointer;
+  font-size: 12px; color: var(--muted); position: relative;
+}
+.cover-picker-box:hover { border-color: var(--orange); color: var(--orange2); }
+.cover-preview {
+  width: 45px; height: 60px; object-fit: cover; border-radius: 3px;
+  display: none; margin: 6px auto 0; border: 1px solid #2a5248;
+}
+</style>
+</head>
+<body>
+
+<div class="glitter-wrap" id="glitterWrap"></div>
+
+<header>
+<h1 id="header-title" data-save="header-title">The Life of a Tracker Girl</h1>
+<p id="header-subtitle" data-save="header-subtitle">v3.9 • Streamlined Operations Console</p>
+</header>
+
+<nav>
+<button class="tab-btn active" onclick="switchTab('profile')">👤 Profile</button>
+<button class="tab-btn" onclick="switchTab('todo')">📋 To-Do List</button>
+<button class="tab-btn" onclick="switchTab('health')">🩺 Health</button>
+<button class="tab-btn" onclick="switchTab('newsroom')">📰 Newsroom Tasks</button>
+</nav>
+
+<main>
+
+<div class="tab-panel active" id="tab-profile">
+
+<div class="card" style="text-align: center;">
+<div class="profile-photo-wrap">
+<img id="profilePhoto" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23142a26'/><circle cx='50' cy='40' r='20' fill='%236b9e94'/><path d='M20,85 C20,65 80,65 80,85' fill='%236b9e94'/></svg>" alt="Profile Picture">
+<label class="profile-photo-overlay">
+Change<br>Photo
+<input type="file" accept="image/*" onchange="changePhoto('profilePhoto', 'profile_photo', event)">
+</label>
+</div>
+
+<h2 id="pf-display-name" data-save="profile-name" style="font-family: var(--serif); font-size: 24px; color: var(--orange);">Journalist</h2>
+<p id="pf-display-title" data-save="profile-title" style="color: var(--teal2); font-size: 13px; font-style: italic; margin-bottom: 12px;">Newsroom Operations</p>
+
+<p id="pf-display-bio" data-save="profile-bio" style="font-size: 14px; max-width: 500px; margin: 0 auto; color: var(--text2);">Welcome to your centralized command dashboard.
+Track daily metrics, literature assets, and newsroom checklist items flawlessly.</p>
+</div>
+
+<div class="daily-summary-box">
+<div class="daily-summary-title">☀️ Daily Summary Snapshot</div>
+<div id="daily-summary-container">
+</div>
+</div>
+
+<div class="subtab-nav">
+<button class="subtab-btn active" id="subbtn-books" onclick="switchSubTab('books')">📚 The Bookshelf</button>
+<button class="subtab-btn" id="subbtn-flowers" onclick="switchSubTab('flowers')">🌸 Flower Purchases</button>
+</div>
+
+<div class="subtab-panel active" id="subpanel-books">
+<div class="card">
+<div class="card-title">📚 Catalog New Media Entry</div>
+
+<div class="form-row">
+<div class="form-group">
+<label>Title</label>
+<input type="text" id="book-title" placeholder="e.g. Master & Margarita, Rumours...">
+</div>
+<div class="form-group">
+<label>Shelf Category</label>
+<select id="book-type">
+<option value="music">🎵 Music Rack (Vinyl, Audio, Albums)</option>
+<option value="books">📚 Library Shelf (Literature, Books)</option>
+<option value="media">🎬 Media Vault (TV, Movies, Documentaries)</option>
+</select>
+</div>
+</div>
+
+<div class="form-row">
+<div class="form-group">
+<label>Cover Graphic / Photo</label>
+<div class="cover-picker-box" onclick="document.getElementById('book-cover-input').click()">
+<span>📸 Click to Select Cover Artwork</span>
+<img id="book-cover-preview" class="cover-preview" alt="Preview">
+<input type="file" id="book-cover-input" accept="image/*" style="display:none;" onchange="previewMediaCover(event)">
+</div>
+</div>
+<div class="form-group">
+<label>Autographed / Signed Copy?</label>
+<div style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+<input type="checkbox" id="book-signed" style="width:20px; height:20px; accent-color:var(--orange); cursor:pointer;">
+<span style="font-size:13px; color:var(--text2)">Yes, this copy is signed / rare</span>
+</div>
+</div>
+</div>
+
+<div class="form-group">
+<label>Personal Commentary / Evaluation</label>
+<textarea id="book-notes" placeholder="Notes, key quotes, tracking details..."></textarea>
+</div>
+<button class="btn btn-orange btn-full" onclick="logMedia()">Secure onto Shelf</button>
+</div>
+
+<div class="shelf-container">
+<div class="shelf-row-title">📚 Library Shelf (Books & Literature)</div>
+<div class="shelf-plank" id="shelf-row-books"></div>
+
+<div class="shelf-row-title">🎵 The Vinyl Rack (Music & Audio)</div>
+<div class="shelf-plank" id="shelf-row-music"></div>
+
+<div class="shelf-row-title">🎬 The Media Vault (TV & Movies)</div>
+<div class="shelf-plank" id="shelf-row-media"></div>
+</div>
+</div>
+
+<div class="subtab-panel" id="subpanel-flowers">
+<div class="card">
+<div class="card-title" style="color: var(--teal);">🌸 Flower Purchase Log</div>
+<div class="form-row">
+<div class="form-group">
+<label>Flower / Variety Name</label>
+<input type="text" id="flower-name" placeholder="e.g., Peonies, Orchids, Tulip Bulbs">
+</div>
+<div class="form-group">
+<label>Purchase Date</label>
+<input type="date" id="flower-date">
+</div>
+</div>
+<div class="form-row three">
+<div class="form-group">
+<label>Cost / Budget Allocation</label>
+<input type="text" id="flower-allotment" placeholder="e.g., $24.50">
+</div>
+<div class="form-group">
+<label>Vendor / Location</label>
+<input type="text" id="flower-location" placeholder="e.g., Local Nursery">
+</div>
+<div class="form-group">
+<label>Time</label>
+<input type="time" id="flower-time">
+</div>
+</div>
+<div class="form-group">
+<label>Condition Notes / Setup Tasks</label>
+<textarea id="flower-notes" placeholder="e.g. Needs plant food, decorative ceramic pot setting..."></textarea>
+</div>
+<button class="btn btn-teal btn-full" onclick="logFlowerItem()">Record Flower Purchase</button>
+
+<div class="log-section">
+<div class="log-section-title">Purchase Archive</div>
+<div id="flowers-log" class="log-empty">No flower purchase logs detected.</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="tab-panel" id="tab-todo">
+<div class="quote-card">"Organize the clutter, command the itinerary."</div>
+<div class="card">
+<div class="card-title">📋 Operational Running Tasks</div>
+<p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Add items to your rolling list. Check items off as you finish them, or clear them out completely.</p>
+<div class="form-row" style="grid-template-columns: 1fr auto; gap: 8px; align-items: flex-end;">
+<div class="form-group" style="margin-bottom: 0;">
+<label>Task Description</label>
+<input type="text" id="todo-input" placeholder="Enter a new item to keep track of..." onkeydown="if(event.key==='Enter') addTodoItem()">
+</div>
+<button class="btn btn-orange" onclick="addTodoItem()" style="height: 40px; padding: 0 20px;">Add Item</button>
+</div>
+
+<div class="log-section">
+<div class="log-section-title">Active Running Items</div>
+<div id="todo-list-container"></div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-health">
+<div class="quote-card" id="quote-blood" data-save="quote-blood">"Consistent precision brings accurate wellness profiles."</div>
+<div class="card">
+<div class="card-title teal">🩺 Core Health Checklist</div>
+<p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Track your critical medication milestones cleanly. Updates match your records instantly.</p>
+<div class="checklist-box">
+<div class="task-row health-accent">
+<input type="checkbox" id="hl-task-1" onchange="saveHealthState()">
+<span class="task-text">Taken morning insulin?</span>
+</div>
+<div class="task-row health-accent">
+<input type="checkbox" id="hl-task-2" onchange="saveHealthState()">
+<span class="task-text">Taken evening insulin?</span>
+</div>
+<div class="task-row health-accent">
+<input type="checkbox" id="hl-task-3" onchange="saveHealthState()">
+<span class="task-text">Taken anti-depressants?</span>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-title teal">💉 Blood Sugar Tracker</div>
+<div class="form-row">
+<div class="form-group" style="margin:0">
+<label>Reading (mg/dL)</label>
+<input type="number" id="bs-value" class="bs-input" placeholder="0" step="1" inputmode="numeric" oninput="updateBsHint(this.value)">
+<div class="live-tip-container" id="bs-hint">Type a reading to see live guidance...</div>
+</div>
+<div class="form-group" style="margin:0">
+<label>Contextual Notes</label>
+<textarea id="bs-notes" placeholder="e.g. Fasting, 2 hours post-dinner" style="height:92px"></textarea>
+</div>
+</div>
+<button class="btn btn-teal btn-full" onclick="logBloodSugar()">Log Reading</button>
+<div class="log-section">
+<div class="log-section-title">Blood Sugar History</div>
+<div id="blood-log" class="log-empty">No blood sugar entries archived yet.</div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-newsroom">
+<div class="quote-card" id="quote-newsroom" data-save="quote-newsroom">"Accuracy first, speed second, clarity always."</div>
+<div class="card">
+<div class="card-title">📰 Core Newsroom Checklist</div>
+<p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Your absolute day-to-day newsroom operations tasks. These update instantly and persist on this console indefinitely.</p>
+<div class="checklist-box">
+<div class="task-row">
+<input type="checkbox" id="nr-task-1" onchange="saveNewsroomState()">
+<span class="task-text">Check the ticker</span>
+</div>
+<div class="task-row">
+<input type="checkbox" id="nr-task-2" onchange="saveNewsroomState()">
+<span class="task-text">Mark FCCS and archives</span>
+</div>
+<div class="task-row">
+<input type="checkbox" id="nr-task-3" onchange="saveNewsroomState()">
+<span class="task-text">Send Discrep/EOD</span>
+</div>
+</div>
+</div>
+</div>
+
+</main>
+
+<div class="toast" id="toast">Logged! ✨</div>
+<div class="undo-toast" id="undo-toast">
+<span style="color:var(--text2)">Entry deleted.</span>
+<button class="btn btn-orange btn-sm" onclick="undoAction()">Undo</button>
+</div>
+
+<button class="edit-fab" id="editFab" onclick="toggleGlobalEditMode()">
+<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+<span>Edit Text</span>
+</button>
+
+<script>
+/* ── BASE DATA ENGINE ─────────────────────────────────────────────────────── */
+const S = {
+  get: k => { try { return JSON.parse(localStorage.getItem('gh_'+k)) } catch { return null } },
+  set: (k,v) => localStorage.setItem('gh_'+k, JSON.stringify(v)),
+  getArr: k => S.get(k) || [],
+  push: (k,v) => { const a = S.getArr(k); a.unshift(v); S.set(k,a); return a; },
+  remove: (k,id) => { const a = S.getArr(k).filter(e=>e.id!==id); S.set(k,a); return a; }
+};
+
+function toast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast show ${type}`;
+  setTimeout(() => t.className = 'toast', 2500);
+}
+
+function fmtDateShort(iso) {
+  if(!iso) return '';
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+  } catch { return iso; }
+}
+
+/* ── TAB IMPLEMENTATION ───────────────────────────────────────────────────── */
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  
+  const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+  if(activeBtn) activeBtn.classList.add('active');
+  const activePanel = document.getElementById('tab-' + tabId);
+  if(activePanel) activePanel.classList.add('active');
+  S.set('last_tab', tabId);
+}
+
+function switchSubTab(subId) {
+  document.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.subtab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('subbtn-' + subId).classList.add('active');
+  document.getElementById('subpanel-' + subId).classList.add('active');
+}
+
+/* ── RECOVERY & UNDO CACHE ───────────────────────────────────────────────── */
+let lastPurged = null;
+let purgeTimer = null;
+let currentEncodedCover = null;
+
+function undoAction() {
+  if (!lastPurged) return;
+  const { key, targetItem } = lastPurged;
+  const data = S.getArr(key);
+  data.unshift(targetItem);
+  S.set(key, data);
+  if (key === 'books') {
+    renderBookshelfDisplay();
+  } else if (key === 'flowers') {
+    renderLogView('flowers-log', data, flowerRowFn);
+  } else if (key === 'blood') {
+    renderLogView('blood-log', data, bsRowFn);
+  } else if (key === 'todo') {
+    renderTodoList();
+  }
+  document.getElementById('undo-toast').style.display = 'none';
+  if (purgeTimer) clearTimeout(purgeTimer);
+  lastPurged = null;
+  toast('Item restored successfully ✨');
+  renderDailySnapshot();
+}
+
+function renderLogView(id, data, rowFn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (!data || data.length === 0) {
+    el.className = "log-empty";
+    el.innerHTML = "No archived items present.";
+    return;
+  }
+  el.className = "log-section";
+  el.innerHTML = data.map(e => rowFn.render(e)).join('');
+}
+
+/* ── VISUAL BOOKSHELF ENGINE ──────────────────────────────────────────────── */
+function previewMediaCover(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    currentEncodedCover = e.target.result;
+    const previewImg = document.getElementById('book-cover-preview');
+    previewImg.src = e.target.result;
+    previewImg.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function logMedia() {
+  const title = document.getElementById('book-title').value.trim();
+  if(!title) { toast('Please specify an item title.', 'error'); return; }
+  const type = document.getElementById('book-type').value;
+  const isSigned = document.getElementById('book-signed').checked;
+  const notes = document.getElementById('book-notes').value.trim();
+  const item = { id: 'media_' + Date.now(), title, type, signed: isSigned, cover: currentEncodedCover, notes, date: new Date().toISOString() };
+  S.push('books', item);
+  renderBookshelfDisplay();
+  document.getElementById('book-title').value = '';
+  document.getElementById('book-notes').value = '';
+  document.getElementById('book-signed').checked = false;
+  document.getElementById('book-cover-input').value = '';
+  const previewImg = document.getElementById('book-cover-preview');
+  previewImg.src = '';
+  previewImg.style.display = 'none';
+  currentEncodedCover = null;
+  toast('Placed onto your media shelf! 📚');
+}
+
+function removeShelfItem(id) {
+  const entries = S.getArr('books');
+  const targetItem = entries.find(e => e.id === id);
+  if (!targetItem) return;
+  lastPurged = { key: 'books', targetItem };
+  const updated = S.remove('books', id);
+  S.set('books', updated);
+  renderBookshelfDisplay();
+  const uToast = document.getElementById('undo-toast');
+  uToast.style.display = 'flex';
+  if (purgeTimer) clearTimeout(purgeTimer);
+  purgeTimer = setTimeout(() => { uToast.style.display = 'none'; lastPurged = null; }, 5000);
+}
+
+function renderBookshelfDisplay() {
+  const items = S.getArr('books');
+  const rows = { books: document.getElementById('shelf-row-books'), music: document.getElementById('shelf-row-music'), media: document.getElementById('shelf-row-media') };
+  Object.keys(rows).forEach(k => { if(rows[k]) rows[k].innerHTML = ''; });
+  const counts = { books: 0, music: 0, media: 0 };
+  items.forEach(item => {
+    const plank = rows[item.type];
+    if (!plank) return;
+    counts[item.type]++;
+    let icon = '📖'; if(item.type === 'music') icon = '🎵'; if(item.type === 'media') icon = '🎬';
+    const cardHtml = `
+      <div class="shelf-item-card" title="${item.title}\n${item.notes || ''}">
+        <div class="shelf-item-cover-wrapper">
+          ${item.cover ? `<img src="${item.cover}">` : `<span class="shelf-fallback-icon">${icon}</span>`}
+          <div class="shelf-item-delete" onclick="removeShelfItem('${item.id}'); event.stopPropagation();">DELETE</div>
+        </div>
+        <div class="shelf-item-title">${item.title}</div>
+        ${item.signed ? `<div class="shelf-signed-badge">★</div>` : ''}
+      </div>
+    `;
+    plank.insertAdjacentHTML('beforeend', cardHtml);
+  });
+  Object.keys(rows).forEach(k => {
+    if(rows[k] && counts[k] === 0) {
+      rows[k].innerHTML = `<div style="font-size:12px; color:var(--muted); padding:10px; font-style:italic;">Empty shelf allotment</div>`;
+    }
+  });
+}
+
+/* ── RUNNING TO-DO LIST ENGINE ────────────────────────────────────────────── */
+function renderTodoList() {
+  const container = document.getElementById('todo-list-container');
+  if(!container) return;
+  const items = S.getArr('todo');
+  if(items.length === 0) {
+    container.className = "log-empty";
+    container.innerHTML = "No active running items found.";
+    return;
+  }
+  container.className = "log-section";
+  container.innerHTML = items.map(item => `
+    <div class="todo-item-row">
+      <div class="todo-left">
+        <input type="checkbox" class="todo-checkbox" ${item.done ? 'checked' : ''} onchange="toggleTodoDone('${item.id}')">
+        <span class="todo-text-content">${item.text}</span>
+      </div>
+      <button class="del-btn" onclick="removeTodoItem('${item.id}')">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+function addTodoItem() {
+  const input = document.getElementById('todo-input');
+  const text = input.value.trim();
+  if(!text) return;
+  const item = { id: 'todo_' + Date.now(), text, done: false };
+  S.push('todo', item);
+  input.value = '';
+  renderTodoList();
+  toast('Item appended onto your list! 📋');
+}
+
+function toggleTodoDone(id) {
+  const items = S.getArr('todo');
+  const matched = items.find(i => i.id === id);
+  if(matched) {
+    matched.done = !matched.done;
+    S.set('todo', items);
+    renderTodoList();
+  }
+}
+
+function removeTodoItem(id) {
+  const items = S.getArr('todo');
+  const targetItem = items.find(i => i.id === id);
+  if(!targetItem) return;
+  lastPurged = { key: 'todo', targetItem };
+  const updated = S.remove('todo', id);
+  S.set('todo', updated);
+  renderTodoList();
+  const uToast = document.getElementById('undo-toast');
+  uToast.style.display = 'flex';
+  if(purgeTimer) clearTimeout(purgeTimer);
+  purgeTimer = setTimeout(() => { uToast.style.display = 'none'; lastPurged = null; }, 5000);
+}
+
+/* ── FLOWER DATA LOGS ─────────────────────────────────────────────────────── */
+const flowerRowFn = {
+  render: e => `
+    <div class="log-entry teal-accent">
+      <div class="log-entry-main">
+        <div class="log-entry-name">🌸 ${e.name} <span style="color:var(--teal2); font-size:12px; font-weight:normal; margin-left:8px;">${e.allotment || ''}</span></div>
+        <div class="log-entry-sub">🗓️ ${fmtDateShort(e.date)} ${e.time || ''} • 📍 ${e.location || 'Unknown'}</div>
+        ${e.notes ? `<div style="font-size:12px; color:var(--text2); margin-top:4px; font-style:italic;">${e.notes}</div>` : ''}
+      </div>
+      <button class="del-btn" onclick="removeGenericItem('flowers', '${e.id}', 'flowers-log', flowerRowFn)">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </button>
+    </div>
+  `
+};
+
+function logFlowerItem() {
+  const name = document.getElementById('flower-name').value.trim();
+  if(!name) { toast('Please specify a flower variety name.', 'error'); return; }
+  const date = document.getElementById('flower-date').value;
+  const allotment = document.getElementById('flower-allotment').value.trim();
+  const location = document.getElementById('flower-location').value.trim();
+  const time = document.getElementById('flower-time').value;
+  const notes = document.getElementById('flower-notes').value.trim();
+  const item = { id: 'fl_' + Date.now(), name, date, allotment, location, time, notes };
+  const updated = S.push('flowers', item);
+  renderLogView('flowers-log', updated, flowerRowFn);
+  document.getElementById('flower-name').value = '';
+  document.getElementById('flower-allotment').value = '';
+  document.getElementById('flower-location').value = '';
+  document.getElementById('flower-notes').value = '';
+  toast('Flower allocation tracked! 🌸');
+}
+
+/* ── HEALTH MODULE ENGINE ─────────────────────────────────────────────────── */
+const bsRowFn = {
+  render: e => {
+    let colorClass = 'teal-accent';
+    const val = parseInt(e.value) || 0;
+    if(val < 70) colorClass = 'blue-accent';
+    if(val > 140) colorClass = 'red-accent';
+    return `
+      <div class="log-entry ${colorClass}">
+        <div class="log-entry-main">
+          <div class="log-entry-name">🩸 ${val} mg/dL <span style="font-size:12px; color:var(--muted); font-weight:normal; margin-left:8px;">${fmtDateShort(e.timestamp)}</span></div>
+          ${e.notes ? `<div class="log-entry-sub">${e.notes}</div>` : ''}
+        </div>
+        <button class="del-btn" onclick="removeGenericItem('blood', '${e.id}', 'blood-log', bsRowFn)">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
+      </div>
+    `;
+  }
+};
+
+function updateBsHint(val) {
+  const el = document.getElementById('bs-hint');
+  if(!el) return;
+  const num = parseInt(val);
+  if (isNaN(num)) { el.textContent = "Type a reading to see live guidance..."; return; }
+  if (num < 70) el.innerHTML = "🔵 <b>Hypoglycemic Status:</b> Critical low floor. Administer swift fast-acting glucose carbs immediately.";
+  else if (num <= 140) el.innerHTML = "🟢 <b>Optimal Threshold:</b> Balanced biometric data spectrum. Maintain routine observation tracking.";
+  else el.innerHTML = "🔴 <b>Elevated Threshold:</b> Hyperglycemic trend noticed. Consider hydration, dosage rules, or metabolic testing.";
+}
+
+function logBloodSugar() {
+  const valField = document.getElementById('bs-value');
+  const notesField = document.getElementById('bs-notes');
+  const val = valField.value.trim();
+  if(!val) { toast('Please input a valid sugar baseline.', 'error'); return; }
+  const item = { id: 'bs_' + Date.now(), value: val, notes: notesField.value.trim(), timestamp: new Date().toISOString() };
+  const updated = S.push('blood', item);
+  renderLogView('blood-log', updated, bsRowFn);
+  valField.value = ''; notesField.value = '';
+  document.getElementById('bs-hint').textContent = 'Type a reading to see live guidance...';
+  toast('Sugar evaluation logged! 🩺');
+  renderDailySnapshot();
+}
+
+function saveHealthState() {
+  const states = { morning: document.getElementById('hl-task-1').checked, evening: document.getElementById('hl-task-2').checked, meds: document.getElementById('hl-task-3').checked };
+  S.set('health_checks', states);
+  renderDailySnapshot();
+}
+
+function loadHealthState() {
+  const s = S.get('health_checks') || {};
+  document.getElementById('hl-task-1').checked = !!s.morning;
+  document.getElementById('hl-task-2').checked = !!s.evening;
+  document.getElementById('hl-task-3').checked = !!s.meds;
+}
+
+/* ── NEWSROOM MODULE CHECKLISTS ───────────────────────────────────────────── */
+function saveNewsroomState() {
+  const states = { ticker: document.getElementById('nr-task-1').checked, fccs: document.getElementById('nr-task-2').checked, eod: document.getElementById('nr-task-3').checked };
+  S.set('newsroom_checks', states);
+  renderDailySnapshot();
+}
+
+function loadNewsroomState() {
+  const s = S.get('newsroom_checks') || {};
+  document.getElementById('nr-task-1').checked = !!s.ticker;
+  document.getElementById('nr-task-2').checked = !!s.fccs;
+  document.getElementById('nr-task-3').checked = !!s.eod;
+}
+
+/* ── DAILY SNAPSHOT INTEGRATION ───────────────────────────────────────────── */
+function renderDailySnapshot() {
+  const box = document.getElementById('daily-summary-container');
+  if(!box) return;
+  
+  const h = S.get('health_checks') || {};
+  const n = S.get('newsroom_checks') || {};
+  const blood = S.getArr('blood');
+  const lastBs = blood.length > 0 ? parseInt(blood[0].value) : null;
+  
+  let bsStatus = `<span style="color:var(--muted)">No data logged today</span>`;
+  if(lastBs !== null) {
+    if(lastBs < 70) bsStatus = `<b style="color:var(--blue)">${lastBs} mg/dL (Low Baseline)</b>`;
+    else if(lastBs <= 140) bsStatus = `<b style="color:var(--teal2)">${lastBs} mg/dL (Balanced)</b>`;
+    else bsStatus = `<b style="color:var(--red)">${lastBs} mg/dL (High Variance)</b>`;
+  }
+  
+  box.innerHTML = `
+    <div class="daily-item ${h.morning && h.evening && h.meds ? 'checked-text' : ''}">
+      <input type="checkbox" disabled ${h.morning && h.evening && h.meds ? 'checked' : ''}>
+      <span>Medical Routines: <b>${[h.morning?'AM':'', h.evening?'PM':'', h.meds?'Rx':''].filter(Boolean).join(' + ') || 'Pending'}</b></span>
+    </div>
+    <div class="daily-item ${n.ticker && n.fccs && n.eod ? 'checked-text' : ''}">
+      <input type="checkbox" disabled ${n.ticker && n.fccs && n.eod ? 'checked' : ''}>
+      <span>Operational Newsroom Status: <b>${n.ticker && n.fccs && n.eod ? 'Operational Complete' : 'Active Tasks Remain'}</b></span>
+    </div>
+    <div class="daily-item">
+      <input type="checkbox" disabled ${lastBs !== null ? 'checked' : ''}>
+      <span>Latest Biometric Sugar State: ${bsStatus}</span>
+    </div>
+  `;
+}
+
+/* ── GENERIC REMOVAL MECHANIC ─────────────────────────────────────────────── */
+function removeGenericItem(storageKey, id, viewElementId, rowFn) {
+  const data = S.getArr(storageKey);
+  const targetItem = data.find(e => e.id === id);
+  if (!targetItem) return;
+  lastPurged = { key: storageKey, targetItem };
+  const updated = S.remove(storageKey, id);
+  renderLogView(viewElementId, updated, rowFn);
+  const uToast = document.getElementById('undo-toast');
+  uToast.style.display = 'flex';
+  if (purgeTimer) clearTimeout(purgeTimer);
+  purgeTimer = setTimeout(() => { uToast.style.display = 'none'; lastPurged = null; }, 5000);
+  renderDailySnapshot();
+}
+
+/* ── IMAGE MEDIA CONVERSIONS ──────────────────────────────────────────────── */
+function changePhoto(imgId, saveKey, event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById(imgId).src = e.target.result;
+    S.set(saveKey, e.target.result);
+    toast('Dashboard visual presentation adjusted!');
+  };
+  reader.readAsDataURL(file);
+}
+
+function loadSavedPhotos() {
+  const p = S.get('profile_photo');
+  if(p) document.getElementById('profilePhoto').src = p;
+}
+
+/* ── CONTENT EDITABLE TEXT STORAGE ───────────────────────────────────────── */
+let globalEditMode = false;
+function toggleGlobalEditMode() {
+  globalEditMode = !globalEditMode;
+  const fab = document.getElementById('editFab');
+  if (globalEditMode) {
+    fab.classList.add('on');
+    fab.querySelector('span').textContent = "Lock Layout";
+    document.querySelectorAll('[data-save]').forEach(el => el.contentEditable = 'true');
+    toast('Interactive inline layout field rewriting active!', 'warning');
+  } else {
+    fab.classList.remove('on');
+    fab.querySelector('span').textContent = "Edit Text";
+    document.querySelectorAll('[data-save]').forEach(el => {
+      el.contentEditable = 'false';
+      S.set(el.getAttribute('data-save'), el.innerHTML);
+    });
+    toast('Text layout variations saved securely! ✨');
+  }
+}
+
+function loadSavedTextContent() {
+  document.querySelectorAll('[data-save]').forEach(el => {
+    const savedText = S.get(el.getAttribute('data-save'));
+    if (savedText) el.innerHTML = savedText;
+  });
+}
+
+/* ── SYSTEM GLITTER PIPELINE ─────────────────────────────────────────────── */
+(function generateGlitter() {
+  const wrap = document.getElementById('glitterWrap');
+  if(!wrap) return;
+  const colors = ['#f97316','#fb923c','#fed7aa','#14b8a6','#2dd4bf','#99f6e4','#fbbf24'];
+  for (let i = 0; i < 25; i++) {
+    const g = document.createElement('div');
+    g.className = 'g';
+    const size = Math.random() * 5 + 3;
+    g.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%; left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-delay:${Math.random()*3}s;
+      animation-duration:${1.5+Math.random()*2}s;
+    `;
+    wrap.appendChild(g);
+  }
+})();
+
+/* ── CONSOLE INITIALIZATION ──────────────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  const todayStr = new Date().toISOString().split('T')[0];
+  document.querySelectorAll('input[type="date"]').forEach(inp => { if(!inp.value) inp.value = todayStr; });
+
+  // Initializing Data Loads
+  renderBookshelfDisplay();
+  renderTodoList();
+  renderLogView('flowers-log', S.getArr('flowers'), flowerRowFn);
+  renderLogView('blood-log', S.getArr('blood'), bsRowFn);
+  loadHealthState();
+  loadNewsroomState();
+  renderDailySnapshot();
+  loadSavedPhotos();
+  loadSavedTextContent();
+
+  // Navigation Persistence
+  const lastTab = S.get('last_tab');
+  if (lastTab) switchTab(lastTab);
+});
+</script>
+</body>
+</html>
